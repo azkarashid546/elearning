@@ -1,6 +1,42 @@
-import React from "react";
-
+import axios from "axios";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+const initialState={
+firstName:"",
+lastName:"",
+email:"",
+phone:"",
+country:"",
+message:""
+}
 const ContactUs = () => {
+const [state,setState]=useState(initialState)
+const [loading,setLoading]=useState(false)
+const handleState = (event) => {
+  setState({
+    ...state,
+    [event.target.name]: event.target.value
+  });
+} 
+ const handleSubmit=async(data)=>{
+  if(!data.firstName || !data.lastName || !data.email || !data.phone || !data.country || !data.message){
+    toast.error("Please fill all the fields")
+    return
+  }
+  try {
+    setLoading(true)
+const response = await axios.post("http://localhost:5000/api/v1/contact-us",data)
+toast.success(response.data.message)
+    setLoading(false)
+  } catch (error) {
+    const message = (error&&error.response && error.response.data && error.response.data.message)|| error.message || error.toString()
+    toast.error(message)
+    setLoading(false)
+  }
+ }
+
+
+
   return (
     <>
       <main>
@@ -61,6 +97,7 @@ const ContactUs = () => {
               >
                 <div className="w-100 aos-item__inner">
                   <iframe
+                    title="my location"
                     className="hvr-shadow"
                     width="100%"
                     height="345"
@@ -87,9 +124,11 @@ const ContactUs = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control bg-transparent"
+                    className="form-control bg-transparent text-white"
                     id="firstName"
                     placeholder="John"
+                    name="firstName"
+                    onChange={handleState}
                   />
                 </div>
                 <div className="col-6 mb-3">
@@ -98,9 +137,11 @@ const ContactUs = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control bg-transparent"
+                    className="form-control bg-transparent text-white"
                     id="lastName"
                     placeholder="Doe"
+name="lastName"
+onChange={handleState}
                   />
                 </div>
               </div>
@@ -110,9 +151,11 @@ const ContactUs = () => {
                 </label>
                 <input
                   type="email"
-                  className="form-control bg-transparent"
+                  className="form-control bg-transparent text-white"
                   id="email"
                   placeholder="name@example.com"
+                  name="email"
+                  onChange={handleState}
                 />
               </div>
               <div className="mb-3">
@@ -121,18 +164,20 @@ const ContactUs = () => {
                 </label>
                 <input
                   type="tel"
-                  className="form-control bg-transparent"
+                  className="form-control bg-transparent text-white"
                   id="phone"
                   placeholder="+1234567890"
+                  name="phone"
+                  onChange={handleState}
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="country" className="form-label ">
                   Country
                 </label>
-                <select className="form-select bg-transparent select-dark-options" id="country">
-                  <option value="1">USA</option>
-                  <option value="2">Non-USA</option>
+                <select className="form-select bg-transparent select-dark-options" id="country" name="country" onChange={handleState}>
+                  <option value="USA">USA</option>
+                  <option value="Non-USA">Non-USA</option>
                 </select>
               </div>
               <div className="mb-3">
@@ -140,12 +185,14 @@ const ContactUs = () => {
                   Message
                 </label>
                 <textarea
-                  className="form-control bg-transparent "
+                  className="form-control bg-transparent text-white"
                   id="message"
                   rows="3"
+                  name="message"
+                  onChange={handleState}
                 ></textarea>
               </div>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={()=>handleSubmit(state)}>
                 Send Message
               </button>
             </div>
