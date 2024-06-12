@@ -283,7 +283,11 @@
 
 }
 
-@media screen and (max-width : 600px) {
+  .border-danger {
+    border-color: red !important;
+  }
+
+@media screen and (max-width : 768px) {
     .top-nav {
         display: none;
     }

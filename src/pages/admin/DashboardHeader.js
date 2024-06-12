@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import socketIO from "socket.io-client";
 import tune from "../../images/notification.mp3";
@@ -19,34 +19,35 @@ const DashboardHeader = ({ open, setOpen }) => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const { data, refetch, isSuccess: getNotificationsSuccess } = useGetAllNotificationQuery(undefined, {
+  const { data, refetch, isSuccess: getNotificationsSuccess, isFetching } = useGetAllNotificationQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   const [updateNotificationStatus, { isSuccess }] = useUpdateNotificationStatusMutation();
   const [notification, setNotification] = useState([]);
 
-  const playNotificationSound = () => {
+  const playNotificationSound = useCallback(() => {
     audio.play().catch((error) => console.error("Audio play error:", error));
-  };
+  }, [audio]);
 
   useEffect(() => {
-    if (data && data.notifications) {
-      setNotification(data.notifications.filter((item) => item.status === "unread"));
-    }
     if (getNotificationsSuccess) {
-      refetch();
+      socketId.on("newNotification", () => {
+        refetch();
+        playNotificationSound();
+      });
     }
-    audio.load();
-  }, [data, getNotificationsSuccess]);
+
+    // Cleanup function to remove the socket listener
+    return () => {
+      socketId.off("newNotification");
+    };
+  }, [getNotificationsSuccess, refetch, playNotificationSound, socketId]);
 
   useEffect(() => {
-    socketId.on("newNotification", () => {
-      refetch();
-      playNotificationSound();
-    });
-
-    
-  }, []);
+    if (data && !isFetching) {
+      setNotification(data.notifications || []);
+    }
+  }, [data, isFetching]);
 
   const handleNotificationStatusChange = async (id) => {
     try {

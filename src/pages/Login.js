@@ -20,37 +20,6 @@ const Login = () => {
   const user = useSelector((state) => state.auth.user);
   let navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/auth/login-user",
-  //       {
-  //         email: credentials.email,
-  //         password: credentials.password,
-  //         withCredentials: true,
-  //       }
-  //     );
-
-  //     const json = response.data;
-
-  //     console.log(json);
-
-  //     if (json.success) {
-  //       // Save the auth-token and redirect
-  //       localStorage.setItem("token", json.accessToken);
-  //       toast.success("Successfully logged in!");
-  //       navigate("/"); // Assuming navigate is provided by React Router
-  //     } else {
-  //       toast.error("Invalid Details");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     toast.error(error?.response?.data?.message)
-
-  //   }
-  // };
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid Email")
@@ -81,6 +50,9 @@ const Login = () => {
         navigate("/profile");
       }
     }
+    if(error){
+      toast.error(error.data.message)
+    }
   
   }, [isSuccess, error])
 
@@ -105,12 +77,12 @@ const Login = () => {
               </label>
               <input
                 type="email"
-                className={`form-control ${errors.email && touched.email ? 'border-danger' : ''}`}
+                className={`form-control  ${errors.email && touched.email ? 'border-danger' : ''}`}
                 id="email"
                 name="email"
                 onChange={handleChange}
                 value={values.email}
-                style = {{outline : "none"}}
+                style = {{outline : "none", background : "transparent"}}
               />
                {errors.email && touched.email && (
                 <span className="pt-2 block" style={{color : "red"}}>
@@ -125,21 +97,23 @@ const Login = () => {
               <div className="d-flex password-input">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className={`form-control ${errors.password && touched.password ? 'border-danger-2' : ''}`}
+                  className={`form-control  ${errors.password && touched.password ? 'border-danger-2' : ''}`}
                   id="password"
                   name="password"
                   onChange={handleChange}
                   value={values.password}
-                  style = {{outline : "none"}}
+                  style = {{outline : "none", backgroundColor : "#33383C"}}
                 />
                 {showPassword ? (
                   <i
-                    class="fa-solid fa-eye fa-xl p-2"
+                  style={{color : "gray"}}
+                    className="fa-solid fa-eye fa-xl p-2"
                     onClick={togglePasswordVisibility}
                   ></i>
                 ) : (
                   <i
-                    class="fa-solid fa-eye-slash fa-xl p-2"
+                  style={{color : "gray"}}
+                    className="fa-solid fa-eye-slash fa-xl p-2"
                     onClick={togglePasswordVisibility}
                   ></i>
                 )}
@@ -158,24 +132,6 @@ const Login = () => {
             >
               Login
             </button>
-            <div className="social-accounts">
-              <span className="text-white mt-5 mb-3 text-center">
-                or join with
-              </span>
-              <div>
-                <div className="social-images">
-                  <div className="social-img">
-                    <img src={Github} alt="" onClick={() => signIn("github")}/>
-                  </div>
-                  <div className="social-img">
-                    <img src={Google} alt="" onClick={() => signIn("google")}/>
-                  </div>
-                  <div className="social-img">
-                    <img src={Twitter} alt="" />
-                  </div>
-                </div>
-              </div>
-            </div>
             <p className="text-white my-5 text-center">
               Not have any account? <Link to="/signup">Signup</Link>
             </p>

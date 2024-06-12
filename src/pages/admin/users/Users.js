@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-const Users = ({ isTeam }) => {
+const Users = () => {
   const [isFocused, setIsFocused] = useState(true);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
@@ -71,12 +71,12 @@ const Users = ({ isTeam }) => {
   ];
 
   const rows = [];
-  if (isTeam) {
-    const newData = data && data.users.filter((item) => item.role === "instructor");
+ 
+    const newData = data && data.users.filter((item) => item.role === "user");
     newData &&
       newData.forEach((item, index) => {
         rows.push({
-          id: index + 1,
+          id: item._id,
           name: item.name,
           email: item.email,
           role: item.role,
@@ -84,29 +84,10 @@ const Users = ({ isTeam }) => {
           createdAt: format(item.createdAt),
         });
       });
-  } else {
-    data &&
-      data.users.forEach((item, index) => {
-        rows.push({
-          id: index + 1,
-          name: item.name,
-          email: item.email,
-          role: item.role,
-          courses: item.courses.length,
-          createdAt: format(item.createdAt),
-        });
-      });
-  }
+  
 
   useEffect(() => {
-    if (updateError) {
-      toast.error(updateError?.data?.message);
-    }
-    if (isSuccess) {
-      refetch();
-      toast.success("User role updated successfully");
-      setActive(false);
-    }
+ 
     if (deleteSuccess) {
       refetch();
       toast.success("Delete user successfully!");
@@ -116,10 +97,7 @@ const Users = ({ isTeam }) => {
       toast.error(deleteError?.data?.message);
     }
   }, [isSuccess, updateError, deleteSuccess]);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await updateUserRole({ email, role });
-  };
+ 
   const handleDelete = async (e) => {
     e.preventDefault();
     const id = userId;
@@ -127,28 +105,12 @@ const Users = ({ isTeam }) => {
   };
   return (
     <>
-      <div style={{ marginTop: "120px" }}>
+      <div style={{ marginTop: "40px" }}>
         <Toaster />
         {isLoading ? (
           <Loader />
         ) : (
           <Box m="20px">
-            {isTeam && (
-              <div className="w-100 d-flex justify-content-end">
-                <div
-                  className="btn btn-primary mb-4 p-2 "
-                  style={{
-                    width: "200px",
-                    borderRadius: "50px",
-                    fontSize: "18px",
-                  }}
-                  onClick={() => setActive(!active)}
-                >
-                  Add New Member
-                </div>
-              </div>
-            )}
-
             <Box
               m="10px 0 0 0"
               height="88vh"
@@ -199,73 +161,6 @@ const Users = ({ isTeam }) => {
             >
               <DataGrid checkboxSelection rows={rows} columns={columns} />
             </Box>
-            {active && (
-              <Modal
-                open={active}
-                onClose={() => setActive(!active)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box
-                  className="position-absolute top-50 start-50 translate-middle rounded-2 shadow p-4"
-                  style={{
-                    width: "450px",
-                    outline: "none",
-                    backgroundColor: "#7f8284",
-                  }}
-                >
-                  <h1
-                    className="text-white text-center"
-                    style={{ fontSize: "33px" }}
-                  >
-                    Add New Member
-                  </h1>
-                  <div className="mt-4">
-                    <input
-                      type="email"
-                      required
-                      className="form-control input-placeholder-white"
-                      id="email"
-                      name="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                      placeholder="Enter Email..."
-                      style={{
-                        outline: "none",
-                        backgroundColor: isFocused ? "transparent" : "",
-                        color: "white",
-                      }}
-                    />
-                    <select
-                      className="form-control mt-3 select-dark-options"
-                      name=""
-                      id=""
-                      style={{
-                        outline: "none",
-                        backgroundColor: isFocused ? "transparent" : "",
-                        color: "white",
-                      }}
-                      onChange={(e) => setRole(e.target.value)}
-                    >
-                      <option className="text-light" value="instructor">
-                        Instructor
-                      </option>
-                      <option className="text-light" value="user">
-                        User
-                      </option>
-                    </select>
-                    <button
-                      className="btn btn-primary mt-4 w-100"
-                      type="submit"
-                      style={{ borderRadius: "50px" }}
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </Box>
-              </Modal>
-            )}
             {open && (
               <Modal
                 open={open}

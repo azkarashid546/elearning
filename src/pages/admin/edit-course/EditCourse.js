@@ -6,7 +6,7 @@ import CourseData from "../create-courses/CourseData";
 import CourseContent from "../create-courses/CourseContent";
 import CoursePreview from "../create-courses/CoursePreview";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation, useGetAllCoursesQuery } from "../../../redux/features/courses/coursesApi";
+import { useEditCourseMutation, useGetAllCoursesInstructorQuery, useGetAllCoursesQuery } from "../../../redux/features/courses/coursesApi";
 import toast, { Toaster } from "react-hot-toast";
 const EditCourse = () => {
   const navigate = useNavigate();
@@ -14,10 +14,10 @@ const EditCourse = () => {
   const [editCourse, {isSuccess, error}] = useEditCourseMutation()
 
   const { id } = useParams();
-    const {isLoading,  data, refetch } = useGetAllCoursesQuery({}, { refetchOnMountOrArgChange: true });
+    const {isLoading,  data, refetch } = useGetAllCoursesInstructorQuery({}, { refetchOnMountOrArgChange: true });
 
     const editCourseData = data && data.courses.find((i) => i._id === id)
-
+     console.log(data)
     console.log("edit",editCourseData)
 
     useEffect(() => {

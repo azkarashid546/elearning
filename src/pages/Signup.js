@@ -137,7 +137,7 @@ const Signup = () => {
                 name="name"
                 onChange={handleChange}
                 value={values.name}
-                style={{ outline: "none" }}
+                style={{ outline: "none", background : "#303538" }}
               />
               {errors.name && touched.name && (
                 <span className="pt-2" style={{ color: "red" }}>
@@ -151,14 +151,14 @@ const Signup = () => {
               </label>
               <input
                 type="email"
-                className={`form-control ${
+                className={`form-control text-white ${
                   errors.email && touched.email ? "border-danger" : ""
                 }`}
                 id="email"
                 name="email"
                 onChange={handleChange}
                 value={values.email}
-                style={{ outline: "none" }}
+                style={{ outline: "none", background : "transparent" }}
               />
               {errors.email && touched.email && (
                 <span className="pt-2 block" style={{ color: "red" }}>
@@ -173,14 +173,14 @@ const Signup = () => {
               <div className="d-flex password-input">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className={`form-control ${
+                  className={`form-control text-white ${
                     errors.password && touched.password ? "border-danger" : ""
                   }`}
                   id="password"
                   name="password"
                   onChange={handleChange}
                   value={values.password}
-                  style={{ outline: "none" }}
+                  style={{ outline: "none" , backgroundColor : "#303538"}}
                 />
                 {showPassword ? (
                   <i
@@ -207,24 +207,6 @@ const Signup = () => {
             >
               Sign up
             </button>
-            <div className="social-accounts">
-              <span className="text-white mt-5 mb-3 text-center">
-                or join with
-              </span>
-              <div>
-                <div className="social-images">
-                  <div className="social-img">
-                    <img src={Facebook} alt="" />
-                  </div>
-                  <div className="social-img">
-                    <img src={Google} alt="" />
-                  </div>
-                  <div className="social-img">
-                    <img src={Twitter} alt="" />
-                  </div>
-                </div>
-              </div>
-            </div>
             <p className="text-white my-5 text-center">
               Already have an account <Link to="/login">Login</Link>
             </p>

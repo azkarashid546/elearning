@@ -11,19 +11,25 @@ import { useLoadUserQuery } from "../../redux/features/api/apiSlice";
 import Avatar from "../../images/default-avatar.png";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { useNavigate } from "react-router-dom";
-import { useGetAllCoursesByUserQuery, useGetAllCoursesQuery, useGetUsersAllCoursesQuery } from "../../redux/features/courses/coursesApi";
+import { useGetAllCoursesByUserQuery, useGetAllCoursesInstructorQuery, useGetAllCoursesQuery, useGetUsersAllCoursesQuery } from "../../redux/features/courses/coursesApi";
 const CourseDetails = ({
+  users,
   data,
   clientSecret,
   stripePromise,
   setOpen: openAuthModal,
 }) => {
+  console.log("data data",users)
+
+
+  const {data : instructorCourses} = useGetUsersAllCoursesQuery()
+  console.log(instructorCourses)
   let navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+  
 
-  const {data : course} = useGetAllCoursesByUserQuery()
-  console.log('course',course)
   const [userData, setUserData] = useState();
+ 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -31,6 +37,7 @@ const CourseDetails = ({
       setUserData(user);
     }
   }, [user]);
+  console.log(userData?.avatar.url)
   const discountPercentage =
     (Math.abs(data?.course?.estimatedPrice - data?.course?.price) /
       data?.course?.estimatedPrice) *
@@ -167,7 +174,7 @@ const CourseDetails = ({
                         >
                           <img
                             src={
-                              item?.userData?.avatar ? item?.userData?.avatar?.url : Avatar
+                              userData?.avatar ? userData?.avatar.url : Avatar
                             }
                             alt=""
                             style={{ height: "100%", borderRadius: "50%" }}
@@ -179,7 +186,7 @@ const CourseDetails = ({
                               className="text-white mb-0"
                               style={{ fontSize: "20px", paddingRight: "2px" }}
                             >
-                              {item?.userData?.name}
+                              {userData?.name}
                             </h5>
                             <Ratings rating={item.rating} />
                           </div>
@@ -205,8 +212,8 @@ const CourseDetails = ({
                           >
                             <img
                               src={
-                                reply?.userData?.avatar
-                                  ? reply?.userData?.avatar.url
+                                userData?.avatar
+                                  ? userData?.avatar.url
                                   : Avatar
                               }
                               alt=""
@@ -219,11 +226,16 @@ const CourseDetails = ({
                           <div className="px-2">
                             <div className="d-flex w-100 align-items-center gap-2">
                               <h5 className="mb-0" style={{ fontSize: "20px" }}>
-                                {reply?.userData?.name}
+                                {userData?.name}
                               </h5>
-                              {reply?.userData?.role === "admin" && (
+                              {userData?.role === "admin" && (
                                 <VerifiedIcon
                                   style={{ color: "#0d6efd", fontSize: "20px" }}
+                                />
+                              )}
+                              {userData?.role === "instructor" && (
+                                <VerifiedIcon
+                                  style={{ color: "red", fontSize: "20px" }}
                                 />
                               )}
                             </div>
@@ -274,7 +286,7 @@ const CourseDetails = ({
               </div>
               <div className="d-flex align-items-center">
                 {
-                  isPurchased && user ? (
+                  isPurchased ? (
                     <Link
                       to={`/course-access/${data?.course._id}`}
                       className="cursor-pointer btn btn-primary my-3 p-2"
@@ -282,16 +294,29 @@ const CourseDetails = ({
                       Enter to Course
                     </Link>
                   ) : (
-                    <button
+                  
+                      <button
                       className={`my-3 cursor-pointer btn btn-primary p-2 `}
                       onClick={handleOrder}
                       style={{ borderRadius: "50px" }}
-                      disabled={!stripePromise || !clientSecret}
                     >
                       Buy Now {data?.course?.price}$
                     </button>
+                      
+                    
+                    
                   )
                }
+               {/* {
+                user?.role === "admin" || user?.role === "instructor" ? (
+                  <Link
+                  to={`/course-access/${data?.course._id}`}
+                  className="cursor-pointer btn btn-primary my-3 p-2"
+                >
+                  Enter to Course
+                </Link>
+                ) : (<></>)
+               } */}
               </div>
               <br />
               <p className="pb-1 text-white">• Source code included</p>

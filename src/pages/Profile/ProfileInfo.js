@@ -80,7 +80,7 @@ const ProfileInfo = () => {
               <div className="d-flex password-input">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control bg-transparent "
                   id="name"
                   name="name"
                   onChange={(e) => setName(e.target.value)}
@@ -96,7 +96,7 @@ const ProfileInfo = () => {
               <input
                 type="text"
                 readOnly
-                className="form-control w-100"
+                className="form-control w-100 bg-transparent text-white"
                 id="email"
                 name="email"
                 value={user?.email}

@@ -8,24 +8,30 @@ import { useGetAllUsersInstructorQuery } from "../../../redux/features/user/user
 import { useGetAllOrdersInstructorQuery } from "../../../redux/features/orders/ordersApi";
 import { Link } from "react-router-dom";
 import { useUploadCertificateMutation } from "../../../redux/features/uploadCertifcate/uploadCertifacateApi";
-import  toast, {Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import { useSelector } from "react-redux";
 
 
 const UploadCertificate = ({ isDashboard }) => {
+  const currentUser = useSelector((state) => state.auth.user);
   const { data, isLoading } = useGetAllOrdersInstructorQuery();
   const { data: usersData , refetch} = useGetAllUsersInstructorQuery({ refetchOnMountOrArgChange: true,});
   const { data: coursesData } = useGetAllCoursesInstructorQuery();
   const [orderData, setOrderData] = useState([]);
   const [uploadCertificate, { isLoading: isUploading, }] = useUploadCertificateMutation({ refetchOnMountOrArgChange: true,});
-
+  
+  console.log("users",usersData)
+  console.log("order",data)
+  console.log(currentUser)
   useEffect(() => {
-    if (data && usersData && coursesData) {
+    if (data && usersData && coursesData && currentUser) {
       const temp = data.orders
+        .filter((item) => item.instructor === currentUser._id) 
         .map((item) => {
           const user = usersData.users.find((user) => user._id === item.userId);
           const course = coursesData.courses.find((course) => course._id === item.courseId);
           const certificate = user?.certificates.find((cert) => cert.courseId === item.courseId);
-          console.log(user?.certificates)
+          console.log(user?.certificates);
           return {
             ...item,
             id: course?._id,
@@ -36,13 +42,12 @@ const UploadCertificate = ({ isDashboard }) => {
             price: "$" + course?.price,
             certificate: certificate?.certificate || null,
           };
-        })
-        .filter((item) => item.userRole === 'user');  // Filter out users with role 'user'
+        });
 
       setOrderData(temp);
-      console.log(temp)
+      console.log("temp", temp);
     }
-  }, [data, usersData, coursesData]);
+  }, [data, usersData, coursesData, currentUser]);
 
   const handleFileChange = async (event, row) => {
     const file = event.target.files[0];
@@ -105,7 +110,7 @@ const UploadCertificate = ({ isDashboard }) => {
   ];
 
   const rows = orderData.map((item, index) => ({
-    id: index + 1,
+    id: item._id,
     userName: item.userName,
     userEmail: item.userEmail,
     title: item.title,
@@ -117,7 +122,7 @@ const UploadCertificate = ({ isDashboard }) => {
   }));
 
   return (
-    <div style={{ marginTop: !isDashboard ? "120px" : "0px" }}>
+    <div style={{ marginTop: !isDashboard ? "40px" : "0px" }}>
       <Toaster />
       {isLoading || isUploading ? (
         !isDashboard && <Loader />

@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 import socketIO from "socket.io-client";
 import tune from "../../images/notification.mp3";
 import {
-    useGetAllNotificationInstructorQuery,
-  useUpdateNotificationStatusInstructprMutation,
+  useGetAllInstructorNotificationsQuery,
+  useGetAllNotificationInstructorQuery,
+  useUpdateNotificationStatusInstructorMutation,
 
 } from "../../redux/features/notifications/notificationsApi";
 import { format } from "timeago.js";
+import { useSelector } from "react-redux";
+import { useGetAllCoursesInstructorQuery } from "../../redux/features/courses/coursesApi";
 
 const InstructorHeader = ({ open, setOpen }) => {
+  const user = useSelector((state) => state.auth.user); // Get logged-in user
+  const { data: courses } = useGetAllCoursesInstructorQuery(); // Get all courses for the instructor
+  console.log(courses?.courses)
   const ENDPOINT = "http://localhost:5000" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -20,39 +26,50 @@ const InstructorHeader = ({ open, setOpen }) => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const { data, refetch, isSuccess: getNotificationsSuccess } = useGetAllNotificationInstructorQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-  const [updateNotificationStatusInstructpr, { isSuccess }] = useUpdateNotificationStatusInstructprMutation();
-  const [notification, setNotification] = useState([]);
+  // Using destructuring to access data and isLoading from the query result
+  const { data: notifications, refetch, isLoading } = useGetAllNotificationInstructorQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 30000, // Optional polling interval for real-time updates
+    }
+  );
+
+  const [updateNotificationStatusInstructor, { isSuccess }] = useUpdateNotificationStatusInstructorMutation();
+  const [filteredNotifications, setFilteredNotifications] = useState([]); // Initialize empty array
 
   const playNotificationSound = () => {
     audio.play().catch((error) => console.error("Audio play error:", error));
   };
 
   useEffect(() => {
-    if (data && data.notifications) {
-      setNotification(data.notifications.filter((item) => item.status === "unread"));
+    if (notifications && notifications.notifications) {
+      // Filter notifications based on logged-in user's ID and courses created by them
+      const filtered = notifications.notifications.filter(
+        (notification) =>
+          notification.instructor &&
+          notification.instructor === user._id &&
+          courses?.courses.find((course) => course._id === notification.course)
+      );
+      setFilteredNotifications(filtered);
     }
-    if (getNotificationsSuccess) {
+
+    if (isSuccess) {
       refetch();
     }
-    audio.load();
-  }, [data, getNotificationsSuccess]);
 
-  useEffect(() => {
+    audio.load();
+
     socketId.on("newNotification", () => {
       refetch();
       playNotificationSound();
     });
-
-    
-  }, []);
+  }, [notifications, isSuccess, user, courses]); 
 
   const handleNotificationStatusChange = async (id) => {
     try {
-      await updateNotificationStatusInstructpr(id).unwrap();
-      setNotification((prevNotifications) =>
+      await updateNotificationStatusInstructor(id).unwrap();
+      setFilteredNotifications((prevNotifications) =>
         prevNotifications.filter((item) => item._id !== id)
       );
     } catch (error) {
@@ -88,7 +105,7 @@ const InstructorHeader = ({ open, setOpen }) => {
                   color: "white",
                 }}
               >
-                {notification.length}
+                {filteredNotifications.length}
               </span>
             </i>
           </Link>
@@ -110,10 +127,10 @@ const InstructorHeader = ({ open, setOpen }) => {
         >
           <h5 className="text-center">Notification</h5>
           <hr />
-          {notification.length === 0 ? (
+          {filteredNotifications.length === 0 ? (
             <p className="text-center">No new notifications</p>
           ) : (
-            notification.map((item) => (
+            filteredNotifications.map((item) => (
               <div key={item._id} className="messages p-2" style={{ backgroundColor: "gray" }}>
                 <div className="single-message mb-1">
                   <div className="message-header" style={{ display: "flex", justifyContent: "space-between" }}>

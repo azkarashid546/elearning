@@ -95,6 +95,12 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
                 className="sidebar-dropdown list-unstyled collapse mx-4"
                 data-bs-parent="#sidebar"
               >
+                 <li className="sidebar-item">
+                  <Link to="/admin/courses" className="sidebar-link">
+                    <i className="fa-solid fa-users"></i>
+                    <span> Courses</span>
+                  </Link>
+                </li>
                 <li className="sidebar-item">
                   <Link to="/admin/users" className="sidebar-link">
                     <i className="fa-solid fa-users"></i>
@@ -102,9 +108,21 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
                   </Link>
                 </li>
                 <li className="sidebar-item">
+                  <Link to="/admin/instructor" className="sidebar-link">
+                    <i className="fa-solid fa-users"></i>
+                    <span>Instructor</span>
+                  </Link>
+                </li>
+                <li className="sidebar-item">
                   <Link to="/admin/invoices" className="sidebar-link">
                     <i className="fa-solid fa-file-invoice"></i>
                     <span>Invoices</span>
+                  </Link>
+                </li>
+                <li className="sidebar-item">
+                  <Link to="/admin/contacts" className="sidebar-link">
+                    <i className="fa-solid fa-file-invoice"></i>
+                    <span>Contacts Details</span>
                   </Link>
                 </li>
               </ul>

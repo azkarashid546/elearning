@@ -25,7 +25,6 @@ const CourseContentMedia = ({
   refetch,
 }) => {
 
- 
   const ENDPOINT = "http://localhost:5000" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -38,12 +37,14 @@ const CourseContentMedia = ({
   const [reviewId, setReviewId] = useState("");
   const [reply, setReply] = useState("");
   const [isReviewReply, setIsReviewReply] = useState(false);
+  
   const { data: courseData, refetch: courseRefetch } = useGetCourseDetailsQuery(
     id,
     { refetchOnMountOrArgChange: true }
   );
   const [addNewQuestion, { isSuccess: questionSuccess, error, isLoading }] =
     useAddNewQuestionMutation({});
+  
   const [
     addAnswerInQuestion,
     {
@@ -60,22 +61,47 @@ const CourseContentMedia = ({
       isSuccess: reviewSuccess,
       error: reviewError,
       isLoading: reviewCreationLoading,
+      refetch: reviewRefetch,
     },
-  ] = useAddReviewInCourseMutation();
+  ] = useAddReviewInCourseMutation({
+    refetchOnMountOrArgChange: true,
+    refetchOnRejected: true,
+    refetchOnError: true,
+  });
 
+  const [
+    addReplyInReview,
+    {
+      isLoading: replyCreationLoading,
+      error: replyError,
+      isSuccess: replySuccess,
+    },
+  ] = useAddReplyInReviewMutation();
+  const [
+    addReplyInReviewInstructor,
+    {
+      isLoading: replyCreationLoadingInstructor,
+      error: replyErrorInstructor,
+      isSuccess: replySuccessInstructor,
+    },
+  ] = useAddReplyInReviewInstructorMutation();
 
- 
-
- 
-  const [addReplyInReview, {isLoading : replyCreationLoading, error : replyError, isSuccess : replySuccess}] = useAddReplyInReviewMutation();
-  const [addReplyInReviewInstructor, {isLoading : replyCreationLoadingInstructor, error : replyErrorInstructor, isSuccess : replySuccessInstructor}] = useAddReplyInReviewInstructorMutation();
-
-  const addReply = user.role === 'admin' ? addReplyInReview : addReplyInReviewInstructor;
+  const addReply =
+    user.role === "admin" ? addReplyInReview : addReplyInReviewInstructor;
 
   const course = courseData?.course;
+  const questions = course?.courseData[activeVedio]?.questions
   const isReviewExits = course?.review?.find(
     (item) => item.user._id === user._id
   );
+  console.log(questions)
+  // const isQuestionsExits = course?.courseData[activeVedio]?.questions?.find(
+  //   (item) => item.user == user._id
+  // );
+  // console.log("isQuestionsExits",isQuestionsExits)
+  // const isQuestionsRepliesExits = course?.courseData?.questions?.questionReplies.find(
+  //   (item) => item.user._id === user._id
+  // );
 
   const handleQuestion = () => {
     if (question.length === 0) {
@@ -88,6 +114,7 @@ const CourseContentMedia = ({
       });
     }
   };
+
   const handleAnswerSubmit = () => {
     addAnswerInQuestion({
       answer,
@@ -96,6 +123,7 @@ const CourseContentMedia = ({
       questionId: questionId,
     });
   };
+
   const handleReviewSubmit = async () => {
     if (review.length === 0) {
       toast.error("Review can't be empty");
@@ -103,58 +131,60 @@ const CourseContentMedia = ({
       await addReviewInCourse({ review, rating, courseId: id });
     }
   };
+
   const handleReviewReplySubmit = async () => {
-    const replyIsLoading = user.role === "admin" ? replyCreationLoading : replyCreationLoadingInstructor
+    const replyIsLoading =
+      user.role === "admin"
+        ? replyCreationLoading
+        : replyCreationLoadingInstructor;
     if (!replyIsLoading) {
       if (reply.length === "") {
         toast.error("Reply can't be empty");
       } else {
-        await addReply({
-          comment: reply,
-          courseId: id,
-          reviewId: reviewId,
-        });
+        await addReply({ comment: reply, courseId: id, reviewId: reviewId });
       }
     }
   };
+
   useEffect(() => {
     if (questionSuccess) {
       setQuestion("");
-      refetch();
+      if (refetch) refetch();
       toast.success("Question added successfully!");
       socketId.emit("notification", {
-        title : "New Question Recieved",
-        message : `You have a new question in ${data[activeVedio].title}`,
-        userId : user._id
-      })
+        title: "New Question Received",
+        message: `You have a new question in ${data[activeVedio].title}`,
+        user: user._id,
+      });
     }
     if (answerSuccess) {
       setAnswer("");
-      refetch();
+      if (refetch) refetch();
       toast.success("Answer added successfully!");
-      if(user.role !== "admin"){
+      if (user.role !== "admin") {
         socketId.emit("notification", {
-          title : "New Question Reply Recieved",
-          message : `You have a new question reply ${data[activeVedio].title}`,
-          userId : user._id
-        })
+          title: "New Question Reply Received",
+          message: `You have a new question reply ${data[activeVedio].title}`,
+          userId: user._id,
+        });
       }
     }
     if (reviewSuccess) {
       setReview("");
       setRating(1);
-      courseRefetch();
+      if (courseRefetch) courseRefetch();
       toast.success("Review added successfully");
       socketId.emit("notification", {
-        title : "New Review Received",
-        message : `${user.name} has given a review in ${courseData?.course?.name}`,
-        userId : user._id
-      })
+        title: "New Review Received",
+        message: `${user.name} has given a review in ${courseData?.course?.name}`,
+        userId: user._id,
+      });
     }
-    const replyReviewSuccess = user.role === "admin" ? replySuccess : replySuccessInstructor
+    const replyReviewSuccess =
+      user.role === "admin" ? replySuccess : replySuccessInstructor;
     if (replyReviewSuccess) {
       setReply("");
-      courseRefetch();
+      if (courseRefetch) courseRefetch();
       toast.success("Reply added successfully");
     }
     if (error) {
@@ -166,9 +196,10 @@ const CourseContentMedia = ({
     if (reviewError) {
       toast.error(reviewError?.data?.message);
     }
-    const replyReviewError = user.role === "admin" ? replyError : replyErrorInstructor
+    const replyReviewError =
+      user.role === "admin" ? replyError : replyErrorInstructor;
     if (replyReviewError) {
-      toast.error(replyError?.data?.message);
+      toast.error(replyReviewError?.data?.message);
     }
   }, [
     questionSuccess,
@@ -179,9 +210,11 @@ const CourseContentMedia = ({
     reviewError,
     replySuccess,
     replyError,
+    courseRefetch,
+    refetch,
   ]);
 
- 
+  // AIzaSyDei9adn_mUp51ZscDLh2hX4PyKKmLx0W0
   return (
     <>
       <div className="py-4 m-auto" style={{ width: "95%" }}>
@@ -220,7 +253,7 @@ const CourseContentMedia = ({
             Next Lesson
             <i class="fa-solid fa-arrow-right mx-2"></i>
           </div>
-        </div>
+     </div>
         <h1
           className="pt-2 text-white"
           style={{ fontSize: "25px", fontWeight: "600" }}
@@ -273,6 +306,7 @@ const CourseContentMedia = ({
         )}
         {activeBar === 2 && (
           <>
+
             <div>
               <div className="d-flex">
                 <div
@@ -329,8 +363,8 @@ const CourseContentMedia = ({
         )}
         {activeBar === 3 && (
           <div className="w-100">
-            {isReviewExits && (
-              <>
+          
+              
                 <div className="d-flex ">
                   <div
                     className="default-avatar"
@@ -398,8 +432,8 @@ const CourseContentMedia = ({
                     Submit
                   </button>
                 </div>
-              </>
-            )}
+              
+           
             <br />
             <div
               className="w-100"
@@ -426,8 +460,8 @@ const CourseContentMedia = ({
                             >
                               <img
                                 src={
-                                  item.user.avatar
-                                    ? item.user.avatar.url
+                                  user.avatar
+                                    ? user.avatar.url
                                     : Avatar
                                 }
                                 alt=""
@@ -444,7 +478,7 @@ const CourseContentMedia = ({
                             className="text-white"
                             style={{ fontSize: "18px" }}
                           >
-                            {item.user.name}{" "}
+                            {user.name}{" "}
                           </h1>
                           <Ratings rating={item.rating} />
                           <p className="text-white">{item.comment}</p>
@@ -453,24 +487,68 @@ const CourseContentMedia = ({
                           </small>
                         </div>
                       </div>
-                      {user.role === "admin" && (
+                      <span
+                        className="text-white cusror-pointer"
+                        style={{ marginLeft: "55px" }}
+                        onClick={() => {
+                          setIsReviewReply(item._id);
+                          setReviewId(item._id);
+                        }}
+                      >
+
+                        Add Reply
+                        {/* {!isReviewReply
+                          ? item.commentReplies.length !== 0
+                            ? "All Replies"
+                            : "Add Reply"
+                          : "Hide Replies"} */}
+                        <i
+                          className="fa-regular fa-message fa-lg cursor-pointer"
+                          style={{ color: "#ffffff83", marginLeft: "10px" }}
+                        ></i>
+                        <span
+                          className="cursor-pointer"
+                          style={{
+                            color: "#ffffff83",
+                            marginLeft: "5px",
+                            marginTop: "-10px",
+                          }}
+                        >
+                          {item.commentReplies.length}
+                        </span>
+                      </span>
+                      {user.role === "instructor" && (
                         <span
                           className="text-white cusror-pointer"
                           style={{ marginLeft: "55px" }}
                           onClick={() => {
-                            setIsReviewReply(true);
+                            setIsReviewReply(item._id);
                             setReviewId(item._id);
                           }}
                         >
                           Add Reply
+                          {/* {!isReviewReply
+                            ? item.commentReplies.length !== 0
+                              ? "All Replies"
+                              : "Add Reply"
+                            : "Hide Replies"} */}
                           <i
                             className="fa-regular fa-message fa-lg cursor-pointer"
                             style={{ color: "#ffffff83", marginLeft: "10px" }}
                           ></i>
+                          <span
+                            className="cursor-pointer"
+                            style={{
+                              color: "#ffffff83",
+                              marginLeft: "5px",
+                              marginTop: "-10px",
+                            }}
+                          >
+                            {item.commentReplies.length}
+                          </span>
                         </span>
                       )}
-
-                      {isReviewReply && (
+                      {isReviewReply && isReviewReply === item._id && (
                         <div className="w-100 position-relative d-flex align-items-center">
                           <input
                             type="text"
@@ -522,8 +600,8 @@ const CourseContentMedia = ({
                             >
                               <img
                                 src={
-                                  reply.user?.avatar
-                                    ? reply.user?.avatar.url
+                                  item.user?.avatar
+                                    ? item.user?.avatar.url
                                     : Avatar
                                 }
                                 alt=""
@@ -533,12 +611,20 @@ const CourseContentMedia = ({
                             <div className="px-2">
                               <div className="d-flex w-100 align-items-center gap-2">
                                 <h5 className="" style={{ fontSize: "20px" }}>
-                                  {reply?.user?.name}
+                                  {item.user?.name}
                                 </h5>
-                                {reply?.user?.role === "admin" && (
+                                {user?.role === "admin" && (
                                   <VerifiedIcon
                                     style={{
                                       color: "#0d6efd",
+                                      fontSize: "20px",
+                                    }}
+                                  />
+                                )}
+                                {user?.role === "instructor" && (
+                                  <VerifiedIcon
+                                    style={{
+                                      color: "red",
                                       fontSize: "20px",
                                     }}
                                   />
@@ -572,6 +658,8 @@ const CommentReply = ({
   user,
   setQuestionId,
   isLoading,
+  isQuestionExits,
+  isQuestionsRepliesExits
 }) => {
   return (
     <>
@@ -580,6 +668,7 @@ const CommentReply = ({
           className="w-100"
           style={{ backgroundColor: "#ffffff3b", height: "1px" }}
         ></div>
+  
         {data[activeVedio].questions.map((item, index) => (
           <CommentItem
             key={index}
@@ -594,6 +683,10 @@ const CommentReply = ({
             isLoading={isLoading}
           />
         ))}
+     
+
+
+        
       </div>
     </>
   );
@@ -608,7 +701,9 @@ const CommentItem = ({
   user,
   isLoading,
 }) => {
+  console.log("item", item)
   const [replyActive, setReplyActive] = useState(false);
+  
   return (
     <>
       <div className="my-3">
@@ -626,13 +721,12 @@ const CommentItem = ({
               }}
             >
               <img
-                src={item.user.avatar ? item.user.avatar.url : Avatar}
+                src={item?.user?.avatar ? item.user.avatar.url : Avatar}
                 alt=""
                 style={{
                   height: "100%",
                   borderRadius: "50%",
-                }}
-              />
+                }}/>
             </div>
           </div>
           <div className="px-3">
@@ -676,7 +770,7 @@ const CommentItem = ({
             {item.questionReplies.length}
           </span>
         </div>
-        {replyActive && (
+        {replyActive&& (
           <>
             {item.questionReplies.map((reply) => (
               <div className="w-100 d-flex my-5 text-white">
@@ -689,7 +783,7 @@ const CommentItem = ({
                   }}
                 >
                   <img
-                    src={reply.user.avatar ? reply.user.avatar.url : Avatar}
+                    src={item.user.avatar ? item.user.avatar.url : Avatar}
                     alt=""
                     style={{
                       height: "100%",
@@ -700,11 +794,16 @@ const CommentItem = ({
                 <div className="px-2">
                   <div className="d-flex w-100 align-items-center gap-2">
                     <h5 className="" style={{ fontSize: "20px" }}>
-                      {reply.user.name}
+                      {item.user.name}
                     </h5>
-                    {reply.user.role === "admin" && (
+                    {item.user.role === "admin" && (
                       <VerifiedIcon
                         style={{ color: "#0d6efd", fontSize: "20px" }}
+                      />
+                    )}
+                    {item.user.role === "instructor" && (
+                      <VerifiedIcon
+                        style={{ color: "red", fontSize: "20px" }}
                       />
                     )}
                   </div>
@@ -752,5 +851,3 @@ const CommentItem = ({
 };
 
 export default CourseContentMedia;
-
-

@@ -7,7 +7,9 @@ import {
   useGetStripePublishableKeyQuery,
 } from "../../redux/features/orders/ordersApi";
 import { loadStripe } from "@stripe/stripe-js";
+import { useLoadUserQuery } from "../../redux/features/api/apiSlice";
 const CourseDetailsPage = ({ id }) => {
+  const {error, data:users} = useLoadUserQuery(undefined, {})
   const [route, setRoute] = useState("/login");
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useGetCourseDetailsQuery(id);
@@ -71,6 +73,7 @@ const CourseDetailsPage = ({ id }) => {
               setOpen={setOpen}
               stripePromise={stripePromise}
               clientSecret={clientSecret}
+              users={users}
             />
           )}
         </>

@@ -499,28 +499,67 @@ body {
   textarea::-webkit-scrollbar {
     display: none;
   }
-  .form-control:focus {
-    box-shadow: none;
-    border-color: #ccc;
-  }
-
-  .custom-text-20 {
-    font-size: 20px !important;
-  }
  
-  .custom-height-30vh {
-    height: 30vh;
-  }
 
-  .scrollable-column {
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Enable vertical scrolling */
+
+  /// chat gpt css
+/* frontend/src/index.css */
+.container {
+    display: flex;
+    flex-direction: row;
   }
   
-  .fixed-column {
-    position: sticky; /* Stick the column in place */
-    top: 0; /* Position from the top */
+  .chat-container {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 300px;
+    transition: width 0.5s;
   }
+  
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .chat-messages {
+    padding: 10px;
+  }
+  
+  .user-message {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .assistant-message {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .chat-input {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+ 
+  
+
+ 
+@media screen and (max-width : 768px){
+    .course-options{
+     display : none
+    }
+}
+ 
  @keyframes spin{
     0% {
         transform : rotate(0deg);

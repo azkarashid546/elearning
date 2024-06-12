@@ -5,6 +5,7 @@ import CourseContentMedia from "./CourseContentMedia"
 import CourseContentList from './CourseContentList'
 import { useSelector } from 'react-redux'
 const CourseContent = ({id, user}) => {
+   console.log("course content",user)
     const {data, isLoading, refetch} = useGetCourseContentQuery(id, {refetchOnMountOrArgChange : true})
     console.log("data",data)
     const [activeVedio, setActiveVedio] = useState(0)
@@ -30,7 +31,7 @@ const CourseContent = ({id, user}) => {
         isLoading ? (<Loader/>) :(
           <div className='row'>
           <div className="col-md-7">
-            
+         
             <CourseContentMedia
               data={data?.content}
               id={id}
@@ -45,6 +46,7 @@ const CourseContent = ({id, user}) => {
            activeVedio={activeVedio}
            setActiveVedio={setActiveVedio}
            data={data?.content}
+         
            />
           </div>
         </div>

@@ -67,7 +67,7 @@ const CreateCourses = () => {
       title: content.title,
       description: content.description,
       vedioLength: content.vedioLength,
-      vedioSection: content.videoSection,
+      vedioSection: content.vedioSection,
       links: content.links.map((link) => ({ title: link.title, url: link.url })),
       suggestions: content.suggestions,
     }));
@@ -89,8 +89,8 @@ const CreateCourses = () => {
   };
 
   return (
-    <div className="d-flex w-100 min-vh-100">
-      <div style={{ width: "80%" }}>
+    <div className="d-flex w-100 min-vh-100 create-course">
+      <div style={{ width: "80%" }} className="width">
         <Toaster />
         {active === 0 && (
           <CourseInformation
@@ -133,7 +133,7 @@ const CreateCourses = () => {
         )}
       </div>
       <div
-        className="min-vh-100"
+        className="course-options  min-vh-100"
         style={{
           width: "20%",
           marginTop: "70px",

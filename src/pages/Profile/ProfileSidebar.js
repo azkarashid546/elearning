@@ -73,7 +73,7 @@ const ProfileSidebar = () => {
       
      <aside id="sidebar" className={isExpanded ? "expand" : ""}>
     <div className="d-flex">
-        <button className="toggle-btn" type="button" onClick={handleToggle}>
+        <button className="toggle-btn" onClick={handleToggle}>
             <i className="lni lni-grid-alt"></i>
         </button>
         <div className="sidebar-logo">

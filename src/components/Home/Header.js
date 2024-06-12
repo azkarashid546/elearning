@@ -81,7 +81,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="left-nav">
-                <div style={{width : "250px", height : "auto"}}>
+                <div style={{width : "200px", height : "auto"}}>
                 <img src={Logo} alt="" className="" style={{width : "100%", height : "100%"}}/>
                 </div>
               
@@ -92,7 +92,7 @@ const Header = () => {
             <div className="center-nav d-flex align-items-center justify-content-end">
               <ul>
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Office</Link>
                 </li>
                 <li>
                   <Link to="/courses">Courses</Link>
@@ -143,7 +143,9 @@ const Header = () => {
         <nav>
           <div className="logoAndCancelBtn">
             <div className="logoDiv">
-              <h1>ELearning</h1>
+            <div style={{width : "150px", height : "auto"}}>
+                <img src={Logo} alt="" className="" style={{width : "100%", height : "100%"}}/>
+                </div>
             </div>
             <div className="cancelDiv">
               <i

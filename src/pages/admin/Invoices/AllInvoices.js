@@ -61,7 +61,7 @@ const AllInvoices = ({ isDashboard }) => {
   ];
 
   const rows = orderData.map((item, index) => ({
-    id: index + 1, // Make sure each row has a unique id
+    id: item._id, // Make sure each row has a unique id
     userName: item.userName,
     userEmail: item.userEmail,
     title: item.title,
@@ -70,7 +70,7 @@ const AllInvoices = ({ isDashboard }) => {
   }));
 
   return (
-    <div style={{ marginTop: !isDashboard ? "120px" : "0px" }}>
+    <div style={{ marginTop: !isDashboard ? "40px" : "0px" }}>
       {isLoading ? (
         !isDashboard && <Loader />
       ) : (

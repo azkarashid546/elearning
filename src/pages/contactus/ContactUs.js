@@ -1,48 +1,73 @@
-import axios from "axios";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
-const initialState={
-firstName:"",
-lastName:"",
-email:"",
-phone:"",
-country:"",
-message:""
-}
+import React, { useEffect, useState } from "react";
+import { useCreateContactUsMutation } from "../../redux/features/conatctus/conatctusApi"; // Correct import
+import toast, { Toaster } from "react-hot-toast";
+
 const ContactUs = () => {
-const [state,setState]=useState(initialState)
-const [loading,setLoading]=useState(false)
-const handleState = (event) => {
-  setState({
-    ...state,
-    [event.target.name]: event.target.value
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    country: "",
+    message: "",
   });
-} 
- const handleSubmit=async(data)=>{
-  if(!data.firstName || !data.lastName || !data.email || !data.phone || !data.country || !data.message){
-    toast.error("Please fill all the fields")
-    return
-  }
-  try {
-    setLoading(true)
-const response = await axios.post("http://localhost:5000/api/v1/contact-us",data)
-toast.success(response.data.message)
-    setLoading(false)
-  } catch (error) {
-    const message = (error&&error.response && error.response.data && error.response.data.message)|| error.message || error.toString()
-    toast.error(message)
-    setLoading(false)
-  }
- }
 
+  const [createContactUs, { isSuccess, error }] = useCreateContactUsMutation();
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    
+      await createContactUs(formData).unwrap();
+    //   if (isSuccess) {
+    //     toast.success("Message sent successfully!");
+
+    //     setFormData({
+    //       firstName: "",
+    //       lastName: "",
+    //       email: "",
+    //       phone: "",
+    //       country: "",
+    //       message: "",
+    //     });
+    //   }
+    // } catch (err) {
+    //   if (error) {
+    //     toast.error("Failed to send message. Please try again.");
+    //   }
+    // }
+  };
+
+  useEffect(()=> {
+    if (isSuccess) {
+          toast.success("Message sent successfully!");
+  
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            country: "",
+            message: "",
+          });
+        }
+        if (error) {
+              toast.error("Failed to send message. Please try again.");
+            }
+  }, [isSuccess , error])
 
   return (
     <>
       <main>
+        <Toaster />
         <div className="container py-5">
           <div className="row g-5">
-            <div className="col-xl-6">
+            <div className="col-md-6">
               <div className="row row-cols-md-2 g-4">
                 <div
                   className="aos-item"
@@ -97,7 +122,6 @@ toast.success(response.data.message)
               >
                 <div className="w-100 aos-item__inner">
                   <iframe
-                    title="my location"
                     className="hvr-shadow"
                     width="100%"
                     height="345"
@@ -115,7 +139,7 @@ toast.success(response.data.message)
               </div>
             </div>
 
-            <div className="col-xl-6">
+            <div className="col-md-6">
               <h2 className="pb-4">Leave a Message</h2>
               <div className="row g-4">
                 <div className="col-6 mb-3">
@@ -127,8 +151,8 @@ toast.success(response.data.message)
                     className="form-control bg-transparent text-white"
                     id="firstName"
                     placeholder="John"
-                    name="firstName"
-                    onChange={handleState}
+                    value={formData.firstName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="col-6 mb-3">
@@ -140,8 +164,8 @@ toast.success(response.data.message)
                     className="form-control bg-transparent text-white"
                     id="lastName"
                     placeholder="Doe"
-name="lastName"
-onChange={handleState}
+                    value={formData.lastName}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -154,8 +178,8 @@ onChange={handleState}
                   className="form-control bg-transparent text-white"
                   id="email"
                   placeholder="name@example.com"
-                  name="email"
-                  onChange={handleState}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
@@ -167,15 +191,20 @@ onChange={handleState}
                   className="form-control bg-transparent text-white"
                   id="phone"
                   placeholder="+1234567890"
-                  name="phone"
-                  onChange={handleState}
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="country" className="form-label ">
+                <label htmlFor="country" className="form-label">
                   Country
                 </label>
-                <select className="form-select bg-transparent select-dark-options" id="country" name="country" onChange={handleState}>
+                <select
+                  className="form-select bg-transparent select-dark-options"
+                  id="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                >
                   <option value="USA">USA</option>
                   <option value="Non-USA">Non-USA</option>
                 </select>
@@ -188,11 +217,15 @@ onChange={handleState}
                   className="form-control bg-transparent text-white"
                   id="message"
                   rows="3"
-                  name="message"
-                  onChange={handleState}
+                  value={formData.message}
+                  onChange={handleChange}
                 ></textarea>
               </div>
-              <button type="button" className="btn btn-primary" onClick={()=>handleSubmit(state)}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
                 Send Message
               </button>
             </div>
