@@ -5,7 +5,7 @@ export const coursesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createCourses: builder.mutation({
       query: (data) => ({
-        url: process.env.PUBLIC_URI + "create-course",
+        url: "https://elearningbackend-nine.vercel.app/create-course",
         method: "POST",
         body: data,
         credentials: "include",
@@ -13,14 +13,14 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getAllCourses: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-courses-admin",
+        url: "https://elearningbackend-nine.vercel.app/get-courses-admin",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllCoursesInstructor: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-all-courses-instructor",
+        url: "https://elearningbackend-nine.vercel.app/get-all-courses-instructor",
         method: "GET",
         credentials: "include",
       }),
@@ -42,7 +42,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getUsersAllCourses: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-courses",
+        url: "https://elearningbackend-nine.vercel.app/get-courses",
         method: "GET",
         credentials: "include",
       }),
@@ -50,7 +50,7 @@ export const coursesApi = apiSlice.injectEndpoints({
 
     getAllCoursesByUser: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-all-user-courses",
+        url: "https://elearningbackend-nine.vercel.app/get-all-user-courses",
         method: "GET",
         credentials: "include",
       }),
@@ -71,7 +71,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     addNewQuestion: builder.mutation({
       query: ({ question, courseId, contentId }) => ({
-        url: process.env.PUBLIC_URI + "add-question",
+        url: "https://elearningbackend-nine.vercel.app/add-question",
         body: {
           question,
           courseId,
@@ -83,7 +83,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     addAnswerInQuestion: builder.mutation({
       query: ({ answer, questionId, courseId, contentId }) => ({
-        url: process.env.PUBLIC_URI + "add-answer",
+        url: "https://elearningbackend-nine.vercel.app/add-answer",
         body: {
           answer,
           questionId,

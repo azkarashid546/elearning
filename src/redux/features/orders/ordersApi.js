@@ -4,14 +4,14 @@ export const ordersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllOrders: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-orders",
+        url: "https://elearningbackend-nine.vercel.app/get-orders",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllOrdersInstructor: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-all-orders-instructor",
+        url: "https://elearningbackend-nine.vercel.app/get-all-orders-instructor",
         method: "GET",
         credentials: "include",
       }),
@@ -25,14 +25,14 @@ export const ordersApi = apiSlice.injectEndpoints({
     }),
     getStripePublishableKey: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "payment/stripepublishablekey",
+        url: "https://elearningbackend-nine.vercel.app/payment/stripepublishablekey",
         method: "GET",
         credentials: "include",
       }),
     }),
     createPaymentIntent: builder.mutation({
       query: (amount) => ({
-        url: process.env.PUBLIC_URI + "payment",
+        url: "https://elearningbackend-nine.vercel.app/payment",
         method: "POST",
         body: {
           amount,
@@ -42,7 +42,7 @@ export const ordersApi = apiSlice.injectEndpoints({
     }),
     createOrder: builder.mutation({
       query: ({ courseId, payment_info }) => ({
-        url: process.env.PUBLIC_URI + "create-order",
+        url: "https://elearningbackend-nine.vercel.app/create-order",
         method: "POST",
         body: {
           courseId,

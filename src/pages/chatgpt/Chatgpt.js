@@ -72,7 +72,7 @@ const Chatgpt = () => {
     setValue("");
     try {
       const response = await axios.post(
-        process.env.PUBLIC_URI + "completions",
+        "https://elearningbackend-nine.vercel.app/completions",
         { message: value }
       );
       // setMessage(response.data.message);

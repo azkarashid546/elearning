@@ -11,14 +11,14 @@ export const apiSlice = createApi({
     endpoints: (builder) => ({
         refreshToken: builder.query({
             query: (data) => ({
-                url: process.env.PUBLIC_URI + "refreshtoken",
+                url: "https://elearningbackend-nine.vercel.app/refreshtoken",
                 method: "GET",
                 credentials: "include"
             })
         }),
         loadUser: builder.query({
             query: (data) => ({
-                url: process.env.PUBLIC_URI + "me",
+                url: "https://elearningbackend-nine.vercel.app/me",
                 method: "GET",
                 credentials: "include"
             }),

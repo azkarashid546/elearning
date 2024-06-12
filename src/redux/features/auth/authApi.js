@@ -5,7 +5,7 @@ export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         register: builder.mutation({
             query: (data) => ({
-                url: process.env.PUBLIC_URI + "registeration",
+                url: "https://elearningbackend-nine.vercel.app/registeration",
                 method: "POST",
                 body: data,
                 credentials: "include",
@@ -25,7 +25,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         activation: builder.mutation({
             query: ({ activationCode, token }) => ({
-                url: process.env.PUBLIC_URI + "activate-user",
+                url: "https://elearningbackend-nine.vercel.app/activate-user",
                 method: "POST",
                 body: {
                     activationCode,
@@ -35,7 +35,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         login: builder.mutation({
             query: ({ email, password }) => ({
-                url: process.env.PUBLIC_URI + "login-user",
+                url: "https://elearningbackend-nine.vercel.app/login-user",
                 method: "POST",
                 body: {
                     email,
@@ -59,7 +59,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         socialAuth: builder.mutation({
             query: ({ email, name, avatar }) => ({
-                url: process.env.PUBLIC_URI + "social-auth",
+                url: "https://elearningbackend-nine.vercel.app/social-auth",
                 method: "POST",
                 body: {
                     email,
@@ -84,7 +84,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         logOut: builder.query({
             query: () => ({
-                url: process.env.PUBLIC_URI + "logout-user",
+                url: "https://elearningbackend-nine.vercel.app/logout-user",
                 method: "GET",
 
                 credentials: "include"

@@ -4,7 +4,7 @@ export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAvatar: builder.mutation({
       query: (avatar) => ({
-        url: process.env.PUBLIC_URI + "updateprofilepicture",
+        url: "https://elearningbackend-nine.vercel.app/updateprofilepicture",
         method: "PUT",
         body: { avatar },
         credentials: "include",
@@ -12,7 +12,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     editProfile: builder.mutation({
       query: ({ name }) => ({
-        url: process.env.PUBLIC_URI + "updateuser",
+        url: "https://elearningbackend-nine.vercel.app/updateuser",
         method: "PUT",
         body: { name },
         credentials: "include",
@@ -20,7 +20,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     updatePassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
-        url: process.env.PUBLIC_URI + "updatepassword",
+        url: "https://elearningbackend-nine.vercel.app/updatepassword",
         method: "PUT",
         body: { oldPassword, newPassword },
         credentials: "include",
@@ -28,14 +28,14 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     getAllUsers: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-users",
+        url: "https://elearningbackend-nine.vercel.app/get-users",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllUsersInstructor: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-users-instructor",
+        url: "https://elearningbackend-nine.vercel.app/get-users-instructor",
         method: "GET",
         credentials: "include",
       }),
@@ -50,7 +50,7 @@ export const userApi = apiSlice.injectEndpoints({
 
     updateUserRole: builder.mutation({
       query: ({ email, role }) => ({
-        url: process.env.PUBLIC_URI + "update-user-role",
+        url: "https://elearningbackend-nine.vercel.app/update-user-role",
         method: "PUT",
         body: { email, role },
         credentials: "include",

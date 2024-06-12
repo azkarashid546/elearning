@@ -4,7 +4,7 @@ export const notificationsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllNotification: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-all-notifications",
+        url: "https://elearningbackend-nine.vercel.app/get-all-notifications",
         method: "GET",
         credentials: "include",
       }),
@@ -18,7 +18,7 @@ export const notificationsApi = apiSlice.injectEndpoints({
     }),
     getAllNotificationInstructor: builder.query({
       query: () => ({
-        url: process.env.PUBLIC_URI + "get-all-notifications-instructor",
+        url: "https://elearningbackend-nine.vercel.app/get-all-notifications-instructor",
         method: "GET",
         credentials: "include",
       }),
