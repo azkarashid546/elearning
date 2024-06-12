@@ -4,7 +4,7 @@ export const contactusApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createContactUs: builder.mutation({
       query: ({ firstName, lastName, email, phone, country, message }) => ({
-        url: "process.env.PUBLIC_URIcontact-us",
+        url: process.env.PUBLIC_URI + "contact-us",
         method: "POST",
         body: { firstName, lastName, email, phone, country, message },
         credentials: "include",
@@ -12,7 +12,7 @@ export const contactusApi = apiSlice.injectEndpoints({
     }),
     getAllContactUs: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-all-contacts",
+        url: process.env.PUBLIC_URI + "get-all-contacts",
         method: "GET",
         credentials: "include",
       }),

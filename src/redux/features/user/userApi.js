@@ -4,7 +4,7 @@ export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAvatar: builder.mutation({
       query: (avatar) => ({
-        url: "process.env.PUBLIC_URIupdateprofilepicture",
+        url: process.env.PUBLIC_URI + "updateprofilepicture",
         method: "PUT",
         body: { avatar },
         credentials: "include",
@@ -12,7 +12,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     editProfile: builder.mutation({
       query: ({ name }) => ({
-        url: "process.env.PUBLIC_URIupdateuser",
+        url: process.env.PUBLIC_URI + "updateuser",
         method: "PUT",
         body: { name },
         credentials: "include",
@@ -20,7 +20,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     updatePassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
-        url: "process.env.PUBLIC_URIupdatepassword",
+        url: process.env.PUBLIC_URI + "updatepassword",
         method: "PUT",
         body: { oldPassword, newPassword },
         credentials: "include",
@@ -28,21 +28,21 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     getAllUsers: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-users",
+        url: process.env.PUBLIC_URI + "get-users",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllUsersInstructor: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-users-instructor",
+        url: process.env.PUBLIC_URI + "get-users-instructor",
         method: "GET",
         credentials: "include",
       }),
     }),
     // getAllUsersInstructor: builder.query({
     //   query: () => ({
-    //     url: "process.env.PUBLIC_URI/get-users-instructor",
+    //     url: process.env.PUBLIC_URI+"/get-users-instructor",
     //     method: "GET",
     //     credentials: "include",
     //   }),
@@ -50,7 +50,7 @@ export const userApi = apiSlice.injectEndpoints({
 
     updateUserRole: builder.mutation({
       query: ({ email, role }) => ({
-        url: "process.env.PUBLIC_URIupdate-user-role",
+        url: process.env.PUBLIC_URI + "update-user-role",
         method: "PUT",
         body: { email, role },
         credentials: "include",

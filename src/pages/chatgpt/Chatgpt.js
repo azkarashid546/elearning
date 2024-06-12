@@ -72,7 +72,7 @@ const Chatgpt = () => {
     setValue("");
     try {
       const response = await axios.post(
-        "process.env.PUBLIC_URIcompletions",
+        process.env.PUBLIC_URI + "completions",
         { message: value }
       );
       // setMessage(response.data.message);

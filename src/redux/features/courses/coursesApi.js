@@ -5,7 +5,7 @@ export const coursesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createCourses: builder.mutation({
       query: (data) => ({
-        url: "process.env.PUBLIC_URIcreate-course",
+        url: process.env.PUBLIC_URI + "create-course",
         method: "POST",
         body: data,
         credentials: "include",
@@ -13,14 +13,14 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getAllCourses: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-courses-admin",
+        url: process.env.PUBLIC_URI + "get-courses-admin",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllCoursesInstructor: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-all-courses-instructor",
+        url: process.env.PUBLIC_URI + "get-all-courses-instructor",
         method: "GET",
         credentials: "include",
       }),
@@ -42,7 +42,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getUsersAllCourses: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-courses",
+        url: process.env.PUBLIC_URI + "get-courses",
         method: "GET",
         credentials: "include",
       }),
@@ -50,7 +50,7 @@ export const coursesApi = apiSlice.injectEndpoints({
 
     getAllCoursesByUser: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-all-user-courses",
+        url: process.env.PUBLIC_URI + "get-all-user-courses",
         method: "GET",
         credentials: "include",
       }),
@@ -71,7 +71,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     addNewQuestion: builder.mutation({
       query: ({ question, courseId, contentId }) => ({
-        url: "process.env.PUBLIC_URIadd-question",
+        url: process.env.PUBLIC_URI + "add-question",
         body: {
           question,
           courseId,
@@ -83,7 +83,7 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     addAnswerInQuestion: builder.mutation({
       query: ({ answer, questionId, courseId, contentId }) => ({
-        url: "process.env.PUBLIC_URIadd-answer",
+        url: process.env.PUBLIC_URI + "add-answer",
         body: {
           answer,
           questionId,

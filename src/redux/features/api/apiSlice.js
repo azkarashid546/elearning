@@ -11,14 +11,14 @@ export const apiSlice = createApi({
     endpoints: (builder) => ({
         refreshToken: builder.query({
             query: (data) => ({
-                url: "process.env.PUBLIC_URIrefreshtoken",
+                url: process.env.PUBLIC_URI + "refreshtoken",
                 method: "GET",
                 credentials: "include"
             })
         }),
         loadUser: builder.query({
             query: (data) => ({
-                url: "process.env.PUBLIC_URIme",
+                url: process.env.PUBLIC_URI + "me",
                 method: "GET",
                 credentials: "include"
             }),

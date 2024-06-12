@@ -5,7 +5,7 @@ export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         register: builder.mutation({
             query: (data) => ({
-                url: "process.env.PUBLIC_URIregisteration",
+                url: process.env.PUBLIC_URI + "registeration",
                 method: "POST",
                 body: data,
                 credentials: "include",
@@ -25,7 +25,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         activation: builder.mutation({
             query: ({ activationCode, token }) => ({
-                url: "process.env.PUBLIC_URIactivate-user",
+                url: process.env.PUBLIC_URI + "activate-user",
                 method: "POST",
                 body: {
                     activationCode,
@@ -35,7 +35,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         login: builder.mutation({
             query: ({ email, password }) => ({
-                url: "process.env.PUBLIC_URIlogin-user",
+                url: process.env.PUBLIC_URI + "login-user",
                 method: "POST",
                 body: {
                     email,
@@ -59,7 +59,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         socialAuth: builder.mutation({
             query: ({ email, name, avatar }) => ({
-                url: "process.env.PUBLIC_URIsocial-auth",
+                url: process.env.PUBLIC_URI + "social-auth",
                 method: "POST",
                 body: {
                     email,
@@ -84,7 +84,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
         logOut: builder.query({
             query: () => ({
-                url: "process.env.PUBLIC_URIlogout-user",
+                url: process.env.PUBLIC_URI + "logout-user",
                 method: "GET",
 
                 credentials: "include"

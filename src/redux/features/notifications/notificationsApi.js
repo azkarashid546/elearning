@@ -4,7 +4,7 @@ export const notificationsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllNotification: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-all-notifications",
+        url: process.env.PUBLIC_URI + "get-all-notifications",
         method: "GET",
         credentials: "include",
       }),
@@ -18,7 +18,7 @@ export const notificationsApi = apiSlice.injectEndpoints({
     }),
     getAllNotificationInstructor: builder.query({
       query: () => ({
-        url: "process.env.PUBLIC_URIget-all-notifications-instructor",
+        url: process.env.PUBLIC_URI + "get-all-notifications-instructor",
         method: "GET",
         credentials: "include",
       }),
