@@ -4,35 +4,35 @@ export const ordersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllOrders: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-orders", 
+        url: "process.env.PUBLIC_URIget-orders",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllOrdersInstructor: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-all-orders-instructor", 
+        url: "process.env.PUBLIC_URIget-all-orders-instructor",
         method: "GET",
         credentials: "include",
       }),
     }),
     getUserOrdersForCourse: builder.query({
       query: () => ({
-        url: 'http://localhost:5000/api/v1/get-user-order-details',
+        url: 'process.env.PUBLIC_URIget-user-order-details',
         method: 'GET',
         credentials: 'include', // Ensure the backend supports credentials if used
       }),
     }),
     getStripePublishableKey: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/payment/stripepublishablekey",
+        url: "process.env.PUBLIC_URIpayment/stripepublishablekey",
         method: "GET",
         credentials: "include",
       }),
     }),
     createPaymentIntent: builder.mutation({
       query: (amount) => ({
-        url: "http://localhost:5000/api/v1/payment",
+        url: "process.env.PUBLIC_URIpayment",
         method: "POST",
         body: {
           amount,
@@ -42,7 +42,7 @@ export const ordersApi = apiSlice.injectEndpoints({
     }),
     createOrder: builder.mutation({
       query: ({ courseId, payment_info }) => ({
-        url: "http://localhost:5000/api/v1/create-order",
+        url: "process.env.PUBLIC_URIcreate-order",
         method: "POST",
         body: {
           courseId,

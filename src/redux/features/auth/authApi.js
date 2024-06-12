@@ -2,20 +2,20 @@ import { apiSlice } from "../api/apiSlice";
 import { userLoggedIn, userLoggedOut, userRegisteration } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
-    endpoints : (builder) => ({
-        register : builder.mutation({
-            query : (data) => ({
-                url : "http://localhost:5000/api/v1/registeration",
-                method : "POST",
-                body : data,
-                credentials : "include",
+    endpoints: (builder) => ({
+        register: builder.mutation({
+            query: (data) => ({
+                url: "process.env.PUBLIC_URIregisteration",
+                method: "POST",
+                body: data,
+                credentials: "include",
             }),
-            async onQueryStarted(arg, {queryFulfilled, dispatch}){
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
                     dispatch(
                         userRegisteration({
-                             token : result.data.activationToken
+                            token: result.data.activationToken
                         })
                     )
                 } catch (error) {
@@ -23,33 +23,33 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             }
         }),
-        activation : builder.mutation({
-            query : ({activationCode,token}) => ({
-               url : "http://localhost:5000/api/v1/activate-user",
-               method : "POST",
-               body : {
-                activationCode,
-                token
-               }
+        activation: builder.mutation({
+            query: ({ activationCode, token }) => ({
+                url: "process.env.PUBLIC_URIactivate-user",
+                method: "POST",
+                body: {
+                    activationCode,
+                    token
+                }
             })
         }),
-        login : builder.mutation({
-            query : ({email, password}) => ({
-                url : "http://localhost:5000/api/v1/login-user",
-                method : "POST",
-                body : {
+        login: builder.mutation({
+            query: ({ email, password }) => ({
+                url: "process.env.PUBLIC_URIlogin-user",
+                method: "POST",
+                body: {
                     email,
                     password
                 },
-                credentials : "include"
+                credentials: "include"
             }),
-            async onQueryStarted(arg, {queryFulfilled, dispatch}){
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
                     dispatch(
                         userLoggedIn({
-                            accessToken : result.data.accessToken,
-                            user : result.data.user
+                            accessToken: result.data.accessToken,
+                            user: result.data.user
                         })
                     )
                 } catch (error) {
@@ -57,24 +57,24 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             }
         }),
-        socialAuth : builder.mutation({
-            query : ({email, name, avatar}) => ({
-                url : "http://localhost:5000/api/v1/social-auth",
-                method : "POST",
-                body : {
+        socialAuth: builder.mutation({
+            query: ({ email, name, avatar }) => ({
+                url: "process.env.PUBLIC_URIsocial-auth",
+                method: "POST",
+                body: {
                     email,
                     name,
                     avatar
                 },
-                credentials : "include"
+                credentials: "include"
             }),
-            async onQueryStarted(arg, {queryFulfilled, dispatch}){
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
                     dispatch(
                         userLoggedIn({
-                            accessToken : result.data.accessToken,
-                            user : result.data.user
+                            accessToken: result.data.accessToken,
+                            user: result.data.user
                         })
                     )
                 } catch (error) {
@@ -82,16 +82,16 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             }
         }),
-         logOut : builder.query({
-            query : () => ({
-                url : "http://localhost:5000/api/v1/logout-user",
-                method : "GET",
-               
-                credentials : "include"
+        logOut: builder.query({
+            query: () => ({
+                url: "process.env.PUBLIC_URIlogout-user",
+                method: "GET",
+
+                credentials: "include"
             }),
-            async onQueryStarted(arg, {queryFulfilled, dispatch}){
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
-                    
+
                     dispatch(
                         userLoggedOut()
                     )
@@ -104,4 +104,4 @@ export const authApi = apiSlice.injectEndpoints({
 })
 
 
-export const {useRegisterMutation, useActivationMutation, useLoginMutation, useLogOutQuery} = authApi
+export const { useRegisterMutation, useActivationMutation, useLoginMutation, useLogOutQuery } = authApi

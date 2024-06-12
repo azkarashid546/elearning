@@ -8,11 +8,11 @@ export const uploadCertifcateApi = apiSlice.injectEndpoints({
                 // formData.append('userId', userId);
                 // formData.append('courseId', courseId);
                 // formData.append('certificate', certificate);
-                    url: 'http://localhost:5000/api/v1/upload-certificate',
-                    method: 'POST',
-                    body: formData,
-                    credentials : "include"
-              
+                url: 'process.env.PUBLIC_URIupload-certificate',
+                method: 'POST',
+                body: formData,
+                credentials: "include"
+
             }),
         }),
     }),

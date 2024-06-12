@@ -4,28 +4,28 @@ export const notificationsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllNotification: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-all-notifications",
+        url: "process.env.PUBLIC_URIget-all-notifications",
         method: "GET",
         credentials: "include",
       }),
     }),
     updateNotificationStatus: builder.mutation({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/update-notification/${id}`,
+        url: `process.env.PUBLIC_URIupdate-notification/${id}`,
         method: "PUT",
         credentials: "include",
       }),
     }),
     getAllNotificationInstructor: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-all-notifications-instructor",
+        url: "process.env.PUBLIC_URIget-all-notifications-instructor",
         method: "GET",
         credentials: "include",
       }),
     }),
     updateNotificationStatusInstructor: builder.mutation({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/update-notification-instructor/${id}`,
+        url: `process.env.PUBLIC_URIupdate-notification-instructor/${id}`,
         method: "PUT",
         credentials: "include",
       }),

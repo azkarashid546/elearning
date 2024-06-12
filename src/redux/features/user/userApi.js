@@ -4,7 +4,7 @@ export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAvatar: builder.mutation({
       query: (avatar) => ({
-        url: "http://localhost:5000/api/v1/updateprofilepicture",
+        url: "process.env.PUBLIC_URIupdateprofilepicture",
         method: "PUT",
         body: { avatar },
         credentials: "include",
@@ -12,7 +12,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     editProfile: builder.mutation({
       query: ({ name }) => ({
-        url: "http://localhost:5000/api/v1/updateuser",
+        url: "process.env.PUBLIC_URIupdateuser",
         method: "PUT",
         body: { name },
         credentials: "include",
@@ -20,7 +20,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     updatePassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
-        url: "http://localhost:5000/api/v1/updatepassword",
+        url: "process.env.PUBLIC_URIupdatepassword",
         method: "PUT",
         body: { oldPassword, newPassword },
         credentials: "include",
@@ -28,44 +28,44 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     getAllUsers: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-users",
+        url: "process.env.PUBLIC_URIget-users",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllUsersInstructor: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-users-instructor",
+        url: "process.env.PUBLIC_URIget-users-instructor",
         method: "GET",
         credentials: "include",
       }),
     }),
     // getAllUsersInstructor: builder.query({
     //   query: () => ({
-    //     url: "http://localhost:5000/api/v1//get-users-instructor",
+    //     url: "process.env.PUBLIC_URI/get-users-instructor",
     //     method: "GET",
     //     credentials: "include",
     //   }),
     // }),
-    
+
     updateUserRole: builder.mutation({
-      query: ({email, role}) => ({
-        url: "http://localhost:5000/api/v1/update-user-role",
+      query: ({ email, role }) => ({
+        url: "process.env.PUBLIC_URIupdate-user-role",
         method: "PUT",
-        body : {email, role},
+        body: { email, role },
         credentials: "include",
       }),
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/delete-user/${id}`,
-        method: "DELETE",        
+        url: `process.env.PUBLIC_URIdelete-user/${id}`,
+        method: "DELETE",
         credentials: "include",
       }),
     }),
     getUserCourseDataCompletionProgress: builder.query({
       query: ({ userId, courseId }) => ({
-        url: `http://localhost:5000/api/v1/get-user-complete-course?userId=${userId}&courseId=${courseId}`, // Pass userId and courseId as query parameters
+        url: `process.env.PUBLIC_URIget-user-complete-course?userId=${userId}&courseId=${courseId}`, // Pass userId and courseId as query parameters
         method: "GET",
         credentials: "include",
       }),
@@ -79,7 +79,7 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    
+
   }),
 });
 

@@ -5,7 +5,7 @@ export const coursesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createCourses: builder.mutation({
       query: (data) => ({
-        url: "http://localhost:5000/api/v1/create-course",
+        url: "process.env.PUBLIC_URIcreate-course",
         method: "POST",
         body: data,
         credentials: "include",
@@ -13,28 +13,28 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getAllCourses: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-courses-admin",
+        url: "process.env.PUBLIC_URIget-courses-admin",
         method: "GET",
         credentials: "include",
       }),
     }),
     getAllCoursesInstructor: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-all-courses-instructor",
+        url: "process.env.PUBLIC_URIget-all-courses-instructor",
         method: "GET",
         credentials: "include",
       }),
     }),
     deleteCourse: builder.mutation({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/delete-course/${id}`,
+        url: `process.env.PUBLIC_URIdelete-course/${id}`,
         method: "DELETE",
         credentials: "include",
       }),
     }),
     editCourse: builder.mutation({
       query: ({ id, data }) => ({
-        url: `http://localhost:5000/api/v1/edit-course/${id}`,
+        url: `process.env.PUBLIC_URIedit-course/${id}`,
         method: "PUT",
         body: data,
         credentials: "include",
@@ -42,91 +42,91 @@ export const coursesApi = apiSlice.injectEndpoints({
     }),
     getUsersAllCourses: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-courses",
+        url: "process.env.PUBLIC_URIget-courses",
         method: "GET",
         credentials: "include",
       }),
     }),
-   
-    getAllCoursesByUser : builder.query({
+
+    getAllCoursesByUser: builder.query({
       query: () => ({
-        url: "http://localhost:5000/api/v1/get-all-user-courses",
+        url: "process.env.PUBLIC_URIget-all-user-courses",
         method: "GET",
         credentials: "include",
       }),
     }),
     getCourseDetails: builder.query({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/get-course/${id}`,
+        url: `process.env.PUBLIC_URIget-course/${id}`,
         method: "GET",
         credentials: "include",
       }),
     }),
     getCourseContent: builder.query({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/get-course-content/${id}`,
+        url: `process.env.PUBLIC_URIget-course-content/${id}`,
         method: "GET",
         credentials: "include",
       }),
     }),
-    addNewQuestion : builder.mutation({
-      query : ({question, courseId, contentId}) => ({
-        url: "http://localhost:5000/api/v1/add-question",
-        body : {
-          question, 
-          courseId, 
+    addNewQuestion: builder.mutation({
+      query: ({ question, courseId, contentId }) => ({
+        url: "process.env.PUBLIC_URIadd-question",
+        body: {
+          question,
+          courseId,
           contentId
         },
-        method : "PUT",
-        credentials : "include"
+        method: "PUT",
+        credentials: "include"
       })
     }),
-    addAnswerInQuestion : builder.mutation({
-      query : ({answer, questionId, courseId, contentId})=> ({
-        url: "http://localhost:5000/api/v1/add-answer",
-        body :{
+    addAnswerInQuestion: builder.mutation({
+      query: ({ answer, questionId, courseId, contentId }) => ({
+        url: "process.env.PUBLIC_URIadd-answer",
+        body: {
           answer,
           questionId,
           courseId,
           contentId
         },
-        method : "PUT",
-        credentials : "include"
+        method: "PUT",
+        credentials: "include"
       })
     }),
-    addReviewInCourse : builder.mutation({
-      query : ({review, rating, courseId})=> ({
-        url: `http://localhost:5000/api/v1/add-review/${courseId}`,
-        body :{
+    addReviewInCourse: builder.mutation({
+      query: ({ review, rating, courseId }) => ({
+        url: `process.env.PUBLIC_URIadd-review/${courseId}`,
+        body: {
           review,
           rating
         },
-        method : "PUT",
-        credentials : "include"
+        method: "PUT",
+        credentials: "include"
       })
     }),
-    addReplyInReview : builder.mutation({
-      query : ({reviewId, courseId, comment})=> ({
-        url: `http://localhost:5000/api/v1/add-review-reply`,
-        body :{
+    addReplyInReview: builder.mutation({
+      query: ({ reviewId, courseId, comment }) => ({
+        url: `process.env.PUBLIC_URIadd-review-reply`,
+        body: {
           comment,
           courseId,
           reviewId
         },
-        method : "PUT",
-        credentials : "include"
+        method: "PUT",
+        credentials: "include"
       })
     }),
-    addReplyInReviewInstructor : builder.mutation({
-      query : ({reviewId, courseId, comment})=> ({
-        url: `http://localhost:5000/api/v1/add-review-reply-istructor`,
-        body :{
+    addReplyInReviewInstructor: builder.mutation({
+      query: ({ reviewId, courseId, comment }) => ({
+        url: `process.env.PUBLIC_URIadd-review-reply-istructor`,
+        body: {
           comment,
           courseId,
           reviewId
         },
-        method : "PUT",
-        credentials : "include"
+        method: "PUT",
+        credentials: "include"
       })
     })
   }),

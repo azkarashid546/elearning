@@ -72,7 +72,7 @@ const Chatgpt = () => {
     setValue("");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/completions",
+        "process.env.PUBLIC_URIcompletions",
         { message: value }
       );
       // setMessage(response.data.message);
@@ -151,9 +151,8 @@ const Chatgpt = () => {
                     {item.id === 1 ? "You: " : "Assistant: "}
                   </p>
                   <p
-                    className={`text-light ${
-                      item.id === 1 ? "text-right pl-0 pr-5" : "text-left pl-5 pr-0"
-                    }`}
+                    className={`text-light ${item.id === 1 ? "text-right pl-0 pr-5" : "text-left pl-5 pr-0"
+                      }`}
                   >
                     {item.message}
                   </p>
