@@ -484,10 +484,6 @@ textarea::-webkit-scrollbar {
 
 /* /// chat gpt css */
 /* frontend/src/index.css */
-.container {
-  display: flex;
-  flex-direction: row;
-}
 
 .chat-container {
   background-color: #f0f0f0;

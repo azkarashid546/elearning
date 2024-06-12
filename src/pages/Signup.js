@@ -98,7 +98,7 @@ const Signup = () => {
         <div className="login-form-center">
           <Toaster />
           <form onSubmit={handleSubmit}>
-            <h1 className="text-white text-center p-3">Join to ELearning</h1>
+            <h1 className="text-white text-center p-3">Join to ELearning {process.env.PUBLIC_URI}</h1>
             <div className="mb-3">
               <label className="form-label text-white">Select a role</label>
               <div className="form-check">
@@ -129,15 +129,14 @@ const Signup = () => {
                 Name
               </label>
               <input
-                type={`form-control ${
-                  errors.name && touched.name ? "border-danger" : ""
-                }`}
+                type={`form-control ${errors.name && touched.name ? "border-danger" : ""
+                  }`}
                 className="form-control"
                 id="name"
                 name="name"
                 onChange={handleChange}
                 value={values.name}
-                style={{ outline: "none", background : "#303538" }}
+                style={{ outline: "none", background: "#303538" }}
               />
               {errors.name && touched.name && (
                 <span className="pt-2" style={{ color: "red" }}>
@@ -151,14 +150,13 @@ const Signup = () => {
               </label>
               <input
                 type="email"
-                className={`form-control text-white ${
-                  errors.email && touched.email ? "border-danger" : ""
-                }`}
+                className={`form-control text-white ${errors.email && touched.email ? "border-danger" : ""
+                  }`}
                 id="email"
                 name="email"
                 onChange={handleChange}
                 value={values.email}
-                style={{ outline: "none", background : "transparent" }}
+                style={{ outline: "none", background: "transparent" }}
               />
               {errors.email && touched.email && (
                 <span className="pt-2 block" style={{ color: "red" }}>
@@ -173,14 +171,13 @@ const Signup = () => {
               <div className="d-flex password-input">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className={`form-control text-white ${
-                    errors.password && touched.password ? "border-danger" : ""
-                  }`}
+                  className={`form-control text-white ${errors.password && touched.password ? "border-danger" : ""
+                    }`}
                   id="password"
                   name="password"
                   onChange={handleChange}
                   value={values.password}
-                  style={{ outline: "none" , backgroundColor : "#303538"}}
+                  style={{ outline: "none", backgroundColor: "#303538" }}
                 />
                 {showPassword ? (
                   <i
