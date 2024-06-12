@@ -25,8 +25,8 @@ const CourseContentMediaInstructor = ({
   refetch,
 }) => {
 
- 
-  const ENDPOINT = "http://localhost:5000" || "";
+
+  const ENDPOINT = "https://elearningbackend-nine.vercel.app" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
   const [activeBar, setActiveBar] = useState(0);
@@ -64,7 +64,7 @@ const CourseContentMediaInstructor = ({
   ] = useAddReviewInCourseMutation();
 
 
- 
+
   const [
     addReplyInReviewInstructor,
     {
@@ -123,20 +123,20 @@ const CourseContentMediaInstructor = ({
       refetch();
       toast.success("Question added successfully!");
       socketId.emit("notification", {
-        title : "New Question Recieved",
-        message : `You have a new question in ${data[activeVedio].title}`,
-        userId : user._id
+        title: "New Question Recieved",
+        message: `You have a new question in ${data[activeVedio].title}`,
+        userId: user._id
       })
     }
     if (answerSuccess) {
       setAnswer("");
       refetch();
       toast.success("Answer added successfully!");
-      if(user.role !== "admin"){
+      if (user.role !== "admin") {
         socketId.emit("notification", {
-          title : "New Question Reply Recieved",
-          message : `You have a new question reply ${data[activeVedio].title}`,
-          userId : user._id
+          title: "New Question Reply Recieved",
+          message: `You have a new question reply ${data[activeVedio].title}`,
+          userId: user._id
         })
       }
     }
@@ -146,9 +146,9 @@ const CourseContentMediaInstructor = ({
       courseRefetch();
       toast.success("Review added successfully");
       socketId.emit("notification", {
-        title : "New Review Received",
-        message : `${user.name} has given a review in ${courseData?.course?.name}`,
-        userId : user._id
+        title: "New Review Received",
+        message: `${user.name} has given a review in ${courseData?.course?.name}`,
+        userId: user._id
       })
     }
     if (replySuccess) {
@@ -179,7 +179,7 @@ const CourseContentMediaInstructor = ({
     replyError,
   ]);
 
- 
+
   return (
     <>
       <div className="py-4 m-auto" style={{ width: "95%" }}>
@@ -190,9 +190,8 @@ const CourseContentMediaInstructor = ({
         />
         <div className="d-flex w-100 align-items-center justify-content-between my-3">
           <div
-            className={` btn btn-primary ${
-              activeVedio === 0 ? "disabled opacity-50" : ""
-            }`}
+            className={` btn btn-primary ${activeVedio === 0 ? "disabled opacity-50" : ""
+              }`}
             onClick={() =>
               setActiveVedio(activeVedio === 0 ? 0 : activeVedio - 1)
             }
@@ -203,9 +202,8 @@ const CourseContentMediaInstructor = ({
           </div>
 
           <div
-            className={` btn btn-primary ${
-              data.length - 1 === activeVedio ? "disabled opacity-50" : ""
-            }`}
+            className={` btn btn-primary ${data.length - 1 === activeVedio ? "disabled opacity-50" : ""
+              }`}
             onClick={() =>
               setActiveVedio(
                 data & (data.length - 1 === activeVedio)
@@ -233,9 +231,8 @@ const CourseContentMediaInstructor = ({
           {["Overviews", "Resources", "Q&A", "Reviews"].map((text, index) => (
             <h5
               key={index}
-              className={`cursor-pointer ${
-                activeBar === index ? "text-danger" : "text-white"
-              }`}
+              className={`cursor-pointer ${activeBar === index ? "text-danger" : "text-white"
+                }`}
               onClick={() => setActiveBar(index)}
             >
               {text}
@@ -299,7 +296,7 @@ const CourseContentMediaInstructor = ({
                 <button
                   className={`btn btn-primary mt-5`}
                   style={{ cursor: isLoading && "not-allowed" }}
-                  onClick={isLoading ? () => {} : handleQuestion}
+                  onClick={isLoading ? () => { } : handleQuestion}
                 >
                   Submit
                 </button>
@@ -390,7 +387,7 @@ const CourseContentMediaInstructor = ({
                     className={`btn btn-primary mt-5 `}
                     style={{ cursor: reviewCreationLoading && "no-drop" }}
                     onClick={
-                      reviewCreationLoading ? () => {} : handleReviewSubmit
+                      reviewCreationLoading ? () => { } : handleReviewSubmit
                     }
                   >
                     Submit

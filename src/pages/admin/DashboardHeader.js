@@ -9,7 +9,7 @@ import {
 import { format } from "timeago.js";
 
 const DashboardHeader = ({ open, setOpen }) => {
-  const ENDPOINT = "http://localhost:5000" || "";
+  const ENDPOINT = "https://elearningbackend-nine.vercel.app" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
   const [dropdownVisible, setDropdownVisible] = useState(false);

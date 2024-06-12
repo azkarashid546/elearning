@@ -11,7 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import socketIO from "socket.io-client";
 
 const CheckOutForm = ({ setOpen, data, user }) => {
-  const ENDPOINT = "http://localhost:5000" || "";
+  const ENDPOINT = "https://elearningbackend-nine.vercel.app" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
   console.log(data?.course?._id);
   const stripe = useStripe();
@@ -19,7 +19,7 @@ const CheckOutForm = ({ setOpen, data, user }) => {
   const [message, setMessage] = useState(null);
   const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
-  const {} = useLoadUserQuery({ skip: loadUser ? false : true });
+  const { } = useLoadUserQuery({ skip: loadUser ? false : true });
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
@@ -45,9 +45,9 @@ const CheckOutForm = ({ setOpen, data, user }) => {
     if (orderData) {
       setLoadUser(false);
       socketId.emit("notification", {
-        title : "New Order",
-        message : `You have a new order from ${data.course.name}`,
-        userId : user._id
+        title: "New Order",
+        message: `You have a new order from ${data.course.name}`,
+        userId: user._id
       })
       navigate(`/course-access/${data?.course?._id}`);
     }

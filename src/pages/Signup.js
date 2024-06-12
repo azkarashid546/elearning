@@ -55,7 +55,7 @@ const Signup = () => {
 
   //   try {
   //     const response = await axios.post(
-  //       "http://localhost:5000/api/auth/registeration",
+  //       "https://elearningbackend-nine.vercel.app/api/auth/registeration",
   //       {
   //         name : credentials.name,
   //         email: credentials.email,

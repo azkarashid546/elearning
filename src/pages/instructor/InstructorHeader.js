@@ -16,7 +16,7 @@ const InstructorHeader = ({ open, setOpen }) => {
   const user = useSelector((state) => state.auth.user); // Get logged-in user
   const { data: courses } = useGetAllCoursesInstructorQuery(); // Get all courses for the instructor
   console.log(courses?.courses)
-  const ENDPOINT = "http://localhost:5000" || "";
+  const ENDPOINT = "https://elearningbackend-nine.vercel.app" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -64,7 +64,7 @@ const InstructorHeader = ({ open, setOpen }) => {
       refetch();
       playNotificationSound();
     });
-  }, [notifications, isSuccess, user, courses]); 
+  }, [notifications, isSuccess, user, courses]);
 
   const handleNotificationStatusChange = async (id) => {
     try {

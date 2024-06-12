@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import socketIO from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://elearningbackend-nine.vercel.app";
 
 const useSocket = () => {
   useEffect(() => {

@@ -25,7 +25,7 @@ const CourseContentMedia = ({
   refetch,
 }) => {
 
-  const ENDPOINT = "http://localhost:5000" || "";
+  const ENDPOINT = "https://elearningbackend-nine.vercel.app" || "";
   const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
   const [activeBar, setActiveBar] = useState(0);
@@ -37,14 +37,14 @@ const CourseContentMedia = ({
   const [reviewId, setReviewId] = useState("");
   const [reply, setReply] = useState("");
   const [isReviewReply, setIsReviewReply] = useState(false);
-  
+
   const { data: courseData, refetch: courseRefetch } = useGetCourseDetailsQuery(
     id,
     { refetchOnMountOrArgChange: true }
   );
   const [addNewQuestion, { isSuccess: questionSuccess, error, isLoading }] =
     useAddNewQuestionMutation({});
-  
+
   const [
     addAnswerInQuestion,
     {
@@ -225,9 +225,8 @@ const CourseContentMedia = ({
         />
         <div className="d-flex w-100 align-items-center justify-content-between my-3">
           <div
-            className={` btn btn-primary ${
-              activeVedio === 0 ? "disabled opacity-50" : ""
-            }`}
+            className={` btn btn-primary ${activeVedio === 0 ? "disabled opacity-50" : ""
+              }`}
             onClick={() =>
               setActiveVedio(activeVedio === 0 ? 0 : activeVedio - 1)
             }
@@ -238,9 +237,8 @@ const CourseContentMedia = ({
           </div>
 
           <div
-            className={` btn btn-primary ${
-              data.length - 1 === activeVedio ? "disabled opacity-50" : ""
-            }`}
+            className={` btn btn-primary ${data.length - 1 === activeVedio ? "disabled opacity-50" : ""
+              }`}
             onClick={() =>
               setActiveVedio(
                 data & (data.length - 1 === activeVedio)
@@ -253,7 +251,7 @@ const CourseContentMedia = ({
             Next Lesson
             <i class="fa-solid fa-arrow-right mx-2"></i>
           </div>
-     </div>
+        </div>
         <h1
           className="pt-2 text-white"
           style={{ fontSize: "25px", fontWeight: "600" }}
@@ -268,9 +266,8 @@ const CourseContentMedia = ({
           {["Overviews", "Resources", "Q&A", "Reviews"].map((text, index) => (
             <h5
               key={index}
-              className={`cursor-pointer ${
-                activeBar === index ? "text-danger" : "text-white"
-              }`}
+              className={`cursor-pointer ${activeBar === index ? "text-danger" : "text-white"
+                }`}
               onClick={() => setActiveBar(index)}
             >
               {text}
@@ -335,7 +332,7 @@ const CourseContentMedia = ({
                 <button
                   className={`btn btn-primary mt-5`}
                   style={{ cursor: isLoading && "not-allowed" }}
-                  onClick={isLoading ? () => {} : handleQuestion}
+                  onClick={isLoading ? () => { } : handleQuestion}
                 >
                   Submit
                 </button>
@@ -363,77 +360,77 @@ const CourseContentMedia = ({
         )}
         {activeBar === 3 && (
           <div className="w-100">
-          
-              
-                <div className="d-flex ">
-                  <div
-                    className="default-avatar"
-                    style={{
-                      width: "45px",
-                      height: "45px",
-                      marginRight: "10px",
-                    }}
-                  >
-                    <img
-                      src={user.avatar ? user.avatar.url : Avatar}
-                      alt=""
-                      style={{
-                        height: "100%",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  </div>
-                  <div className="w-100">
-                    <h5
-                      className="text-white"
-                      style={{ fontSize: "20px", fontWeight: "500" }}
-                    >
-                      Give a Rating <span className="text-danger">*</span>
-                    </h5>
-                    <div className="d-flex w-100 mx-2 pb-3 my-3">
-                      {[1, 2, 3, 4, 5].map((i) =>
-                        rating >= i ? (
-                          <i
-                            className="fa-solid fa-star fa-lg cursor-pointer"
-                            key={i}
-                            style={{ color: "rgb(246,186,0)" }}
-                            onClick={() => setRating(i)}
-                          ></i>
-                        ) : (
-                          <i
-                            class="fa-regular fa-star fa-lg cursor-pointer"
-                            key={i}
-                            style={{ color: "rgb(246,186,0)" }}
-                            onClick={() => setRating(i)}
-                          ></i>
-                        )
-                      )}
-                    </div>
-                    <textarea
-                      name=""
-                      value={review}
-                      onChange={(e) => setReview(e.target.value)}
-                      id=""
-                      cols={40}
-                      rows={5}
-                      placeholder="Write your comment..."
-                      className="form-control text-white bg-transparent border border-light rounded w-90"
-                    ></textarea>
-                  </div>
+
+
+            <div className="d-flex ">
+              <div
+                className="default-avatar"
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  marginRight: "10px",
+                }}
+              >
+                <img
+                  src={user.avatar ? user.avatar.url : Avatar}
+                  alt=""
+                  style={{
+                    height: "100%",
+                    borderRadius: "50%",
+                  }}
+                />
+              </div>
+              <div className="w-100">
+                <h5
+                  className="text-white"
+                  style={{ fontSize: "20px", fontWeight: "500" }}
+                >
+                  Give a Rating <span className="text-danger">*</span>
+                </h5>
+                <div className="d-flex w-100 mx-2 pb-3 my-3">
+                  {[1, 2, 3, 4, 5].map((i) =>
+                    rating >= i ? (
+                      <i
+                        className="fa-solid fa-star fa-lg cursor-pointer"
+                        key={i}
+                        style={{ color: "rgb(246,186,0)" }}
+                        onClick={() => setRating(i)}
+                      ></i>
+                    ) : (
+                      <i
+                        class="fa-regular fa-star fa-lg cursor-pointer"
+                        key={i}
+                        style={{ color: "rgb(246,186,0)" }}
+                        onClick={() => setRating(i)}
+                      ></i>
+                    )
+                  )}
                 </div>
-                <div className="d-flex justify-content-end">
-                  <button
-                    className={`btn btn-primary mt-5 `}
-                    style={{ cursor: reviewCreationLoading && "no-drop" }}
-                    onClick={
-                      reviewCreationLoading ? () => {} : handleReviewSubmit
-                    }
-                  >
-                    Submit
-                  </button>
-                </div>
-              
-           
+                <textarea
+                  name=""
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                  id=""
+                  cols={40}
+                  rows={5}
+                  placeholder="Write your comment..."
+                  className="form-control text-white bg-transparent border border-light rounded w-90"
+                ></textarea>
+              </div>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button
+                className={`btn btn-primary mt-5 `}
+                style={{ cursor: reviewCreationLoading && "no-drop" }}
+                onClick={
+                  reviewCreationLoading ? () => { } : handleReviewSubmit
+                }
+              >
+                Submit
+              </button>
+            </div>
+
+
             <br />
             <div
               className="w-100"
@@ -668,7 +665,7 @@ const CommentReply = ({
           className="w-100"
           style={{ backgroundColor: "#ffffff3b", height: "1px" }}
         ></div>
-  
+
         {data[activeVedio].questions.map((item, index) => (
           <CommentItem
             key={index}
@@ -683,10 +680,10 @@ const CommentReply = ({
             isLoading={isLoading}
           />
         ))}
-     
 
 
-        
+
+
       </div>
     </>
   );
@@ -703,7 +700,7 @@ const CommentItem = ({
 }) => {
   console.log("item", item)
   const [replyActive, setReplyActive] = useState(false);
-  
+
   return (
     <>
       <div className="my-3">
@@ -726,7 +723,7 @@ const CommentItem = ({
                 style={{
                   height: "100%",
                   borderRadius: "50%",
-                }}/>
+                }} />
             </div>
           </div>
           <div className="px-3">
@@ -770,7 +767,7 @@ const CommentItem = ({
             {item.questionReplies.length}
           </span>
         </div>
-        {replyActive&& (
+        {replyActive && (
           <>
             {item.questionReplies.map((reply) => (
               <div className="w-100 d-flex my-5 text-white">
